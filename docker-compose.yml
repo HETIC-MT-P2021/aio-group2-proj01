@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+
+  go:
+    build:
+      context: ./docker/golang
+    ports:
+      - 8081:80
+
+  nginx:
+    build:
+      context: ./docker/elm-nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./logs/nginx/:/var/log/nginx
+    depends_on:
+      - go
