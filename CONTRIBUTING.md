@@ -27,7 +27,7 @@ $ git commit
 Note that multiple commits often get squashed when they are landed.
 
 ### Commit message guidelines
-A good commit message should describe what changed and why. The Electron project
+A good commit message should describe what changed and why. The ElmBum project
 uses [semantic commit messages](https://conventionalcommits.org/) to streamline
 the release process.
 
