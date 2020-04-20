@@ -1,7 +1,7 @@
 FROM golang:1.14.1-alpine AS builder
 
 WORKDIR /go/src
-COPY ../../back .
+COPY . .
 
 ENV CGO_ENABLED=0 GOOS=linux GOARCH=amd64
 RUN go build \
@@ -11,12 +11,7 @@ RUN go build \
     -tags 'netgo osusergo static_build' \
     -o /go/bin/app
 
-# Compress the binary
-FROM gruebel/upx:latest as upx
-COPY --from=builder /go/bin/app /app.org
-RUN upx --best --lzma -o /app /app.org
-
 # Copying the binary into the final image
 FROM alpine
-COPY --from=upx /app .
-CMD ["./app"]
+COPY --from=builder /go/bin/app .
+ENTRYPOINT ["./app"]
