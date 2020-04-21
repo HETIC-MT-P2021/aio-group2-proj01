@@ -25,9 +25,10 @@ func paramValidation(next echo.HandlerFunc) echo.HandlerFunc {
 }
 
 func SetCategoryRoutes(e *echo.Echo) {
-	e.PUT("/category/:id", controller.EditCategory, paramValidation)
-	e.GET("/category", controller.GetCategory)
+	e.GET("/category/:id", controller.GetCategory, paramValidation)
+	e.GET("/category", controller.GetAllCategory)
 	e.POST("/category", controller.AddCategory)
+	e.PUT("/category/:id", controller.EditCategory, paramValidation)
 	e.DELETE("/category/:id", controller.RemoveCategory, paramValidation)
 }
 

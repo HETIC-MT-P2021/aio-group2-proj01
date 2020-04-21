@@ -14,6 +14,19 @@ var (
 )
 
 func GetCategory(c echo.Context) error {
+	categoryID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+	res, err := model.GetCategoryById(categoryID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
+}
+
+func GetAllCategory(c echo.Context) error {
 
 	res, err := model.GetAllCategory()
 	if err != nil {

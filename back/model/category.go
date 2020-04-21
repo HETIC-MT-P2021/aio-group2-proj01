@@ -7,6 +7,22 @@ import (
 	"errors"
 )
 
+func GetCategoryById(categoryID int) (e.Category, error)  {
+	var category e.Category
+	const query = `SELECT * FROM category WHERE id_category = $1`
+	err := db.DB.QueryRow(query, categoryID).Scan(&category.ID, &category.Name, &category.Description)
+
+	if err == sql.ErrNoRows {
+		return category, errors.New("Category is not found")
+	}
+
+	if err != nil {
+		return category, err
+	}
+
+	return category, nil
+}
+
 func GetAllCategory() ([]e.Category, error) {
 	var category e.Category
 	var categoryList []e.Category
