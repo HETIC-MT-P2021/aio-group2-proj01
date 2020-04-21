@@ -54,7 +54,7 @@ func CountCategory() (int, error) {
 	err := db.DB.QueryRow("SELECT count(*) FROM category").Scan(&countCategory)
 
 	if err == sql.ErrNoRows {
-		return 0, errors.New("owners is empty")
+		return 0, errors.New("Category is empty")
 	}
 
 	if err != nil {

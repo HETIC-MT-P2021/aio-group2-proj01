@@ -1,0 +1,89 @@
+package controller
+
+import (
+	e "back/entity"
+	"back/model"
+	"net/http"
+	"strconv"
+
+	"github.com/labstack/echo/v4"
+)
+
+func GetTag(c echo.Context) error {
+	tagID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+	res, err := model.GetTagById(tagID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
+}
+
+func GetAllTag(c echo.Context) error {
+
+	res, err := model.GetAllTag()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	if len(res) == 0 {
+		return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "tag is empty", EmptyValue))
+	}
+
+	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
+}
+
+func AddTag(c echo.Context) error {
+	var tag e.Tag
+	err := c.Bind(&tag)
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	err = model.InsertTag(&tag)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "ok", EmptyValue))
+
+}
+
+func RemoveTag(c echo.Context) error {
+	tagID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	err = model.DeleteTag(tagID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	return c.JSON(http.StatusAccepted, "ok")
+}
+
+func EditTag(c echo.Context) error {
+	var tag e.Tag
+	tagID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	err = c.Bind(&tag)
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusUnprocessableEntity, err.Error(), EmptyValue))
+	}
+
+	tag.ID = tagID
+
+	err = model.UpdateTag(&tag)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "edited", EmptyValue))
+}

@@ -31,4 +31,3 @@ func SetCategoryRoutes(e *echo.Echo) {
 	e.PUT("/category/:id", controller.EditCategory, paramValidation)
 	e.DELETE("/category/:id", controller.RemoveCategory, paramValidation)
 }
-
