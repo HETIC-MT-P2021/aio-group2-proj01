@@ -4,7 +4,7 @@ services:
 
   nginx:
     build:
-      context: ./docker/elm-nginx
+      context: ./.docker/elm-nginx
     ports:
       - 8080:80
     volumes:
