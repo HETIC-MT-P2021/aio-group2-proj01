@@ -1,24 +1,29 @@
-# Welcome to ElmBum 👋
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
-[![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)](#)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
-
-> Web application written in Go & ELM used to manage a photo album
+<table width="100%">
+	<tr>
+		<td align="left" width="70">
+			<strong>ElmBum</strong><br />
+			Web application written in Go & ELM used to manage a photo album
+		</td>
+		<td align="right" width="20%">
+			<a href="https://goreportcard.com/report/github.com/HETIC-MT-P2021/aio-group2-proj01">
+				<img src="https://goreportcard.com/badge/github.com/HETIC-MT-P2021/aio-group2-proj01" alt="Go Report Card">
+			</a>
+      <a href="https://github.com/HETIC-MT-P2021/aio-group2-proj01/blob/master/LICENSE">
+			  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/>
+      </a>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			A Hetic student project.
+		</td>
+		<td align="center">
+			<img src="https://user-images.githubusercontent.com/27848278/80025966-ab059800-84e1-11ea-9e37-41a3ddcbda89.png" width="100"/>
+		</td>
+	</tr>
+</table>
 
 ## Usage
-
-
-Required development environment:
-- [Docker](https://www.docker.com)
-- [Docker Compose](https://docs.docker.com/compose/install/)
-
-Configure the development environment on your local machine:
-```bash
-$ git clone https://github.com/HETIC-MT-P2021/aio-group2-proj01.git
-$ cd aio-group2-proj01
-$ docker-compose up -d
-=======
 
 Required development environment:
 - [Docker](https://www.docker.com)
@@ -32,6 +37,10 @@ $ make up
 ```
 
 You can now access the api: [http://localhost:1323/](http://localhost:1323/).
+
+<p align="center" style="margin: 40px 0">
+  <img src="https://user-images.githubusercontent.com/27848278/80033563-3cc6d280-84ed-11ea-8721-94331b52e23b.gif" style="max-width: 80%;">
+</p>
 
 ## Use the command line
 
@@ -53,17 +62,27 @@ Commands:
   urls                 Get project's URL
 ```
 
-You can now access the api: [http://localhost:1323/](http://localhost:1323/).
-
 ## Author
 
-👤 **Alexis Cauchois**
-
-👤 **Axel Rayer**
-
-👤 **Hugo Tinghino**
-
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/acauchois">
+        <img src="https://github.com/acauchois.png" width="150px;"/><br>
+        <b>Alexis Cauchois</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Akecel">
+        <img src="https://github.com/Akecel.png" width="150px;"/><br>
+        <b>Axel Rayer</b>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/t-hugo">
+        <img src="https://github.com/t-hugo.png" width="150px;"/><br>
+        <b>Hugo Tinghino</b>
+      </a>
+    </td>
+  </tr>
+</table>
