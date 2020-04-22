@@ -9,6 +9,7 @@ func InitRoutes(e *echo.Echo) {
 
 	SetCategoryRoutes(e)
 	SetTagRoutes(e)
+	SetImageRoutes(e)
 
 	e.GET("/", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, e.Routes())
