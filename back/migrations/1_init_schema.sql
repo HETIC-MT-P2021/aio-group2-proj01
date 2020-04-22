@@ -10,7 +10,8 @@ CREATE TABLE "image"
     "id_image"    SERIAL PRIMARY KEY,
     "description" varchar(255) NULL,
     "id_category" integer NOT NULL,
-    "added_date"  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "url" varchar(255) NULL,
+    "created_at"  timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT "FK_Image_IdCategory" FOREIGN KEY ( "id_category" ) REFERENCES "category" ( "id_category" )
 );
 

@@ -10,7 +10,7 @@ import (
 func GetImageById(imageID int) (e.Image, error)  {
 	var image e.Image
 	const query = `SELECT * FROM image WHERE id_image = $1`
-	err := db.DB.QueryRow(query, imageID).Scan(&image.ID, &image.Description, &image.IDCategory, &image.AddedDate)
+	err := db.DB.QueryRow(query, imageID).Scan(&image.ID, &image.Description, &image.IDCategory, &image.CreatedAt)
 
 	if err == sql.ErrNoRows {
 		return image, errors.New("Image is not found")
@@ -34,7 +34,7 @@ func GetAllImage() ([]e.Image, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		err = rows.Scan(&image.ID, &image.Description, &image.IDCategory, &image.AddedDate)
+		err = rows.Scan(&image.ID, &image.Description, &image.IDCategory, &image.URL, &image.CreatedAt)
 		if err != nil {
 			return imageList, err
 		}
@@ -51,13 +51,13 @@ func GetAllImage() ([]e.Image, error) {
 //TODO
 
 // func InsertImage(image *e.Image) error {
-// 	const query = `INSERT INTO "image" ("name", "description, id_category, added_date") VALUES ($1, $2, $3, $4)`
+// 	const query = `INSERT INTO "image" ("name", "description, id_category, url, created_at") VALUES ($1, $2, $3, $4)`
 // 	tx, err := db.DB.Begin()
 // 	if err != nil {
 // 		return err
 // 	}
 
-// 	_, err = tx.Exec(query, image.Description, &image.IDCategory, &image.AddedDate)
+// 	_, err = tx.Exec(query, image.Description, &image.IDCategory, &image.URL, &image.CreatedAt)
 // 	if err != nil {
 // 		tx.Rollback()
 // 		return err
@@ -108,7 +108,7 @@ func DeleteImage(imageID int) error {
 // 		return err
 // 	}
 
-// 	res, err := tx.Exec(query, image.ID, image.Description, &image.IDCategory)
+// 	res, err := tx.Exec(query, image.ID, image.Description, &image.IDCategory, &image.URL)
 // 	if err != nil {
 // 		tx.Rollback()
 // 		return err
