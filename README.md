@@ -24,7 +24,9 @@ You can now access the api: [http://localhost:1323/](http://localhost:1323/).
 ## Author
 
 👤 **Alexis Cauchois**
+
 👤 **Axel Rayer**
+
 👤 **Hugo Tinghino**
 
 
