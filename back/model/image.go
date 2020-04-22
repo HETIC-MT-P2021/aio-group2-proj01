@@ -49,13 +49,13 @@ func GetAllImage() ([]e.Image, error) {
 }
 
 func InsertImage(image *e.Image) error {
-	const query = `INSERT INTO "image" ("description", "id_category") VALUES ($1, $2)`
+	const query = `INSERT INTO "image" ("description", "id_category", "url") VALUES ($1, $2, $3)`
 	tx, err := db.DB.Begin()
 	if err != nil {
 		return err
 	}
 
-	_, err = tx.Exec(query, image.Description, image.IDCategory)
+	_, err = tx.Exec(query, image.Description, image.IDCategory, image.URL)
 	if err != nil {
 		tx.Rollback()
 		return err
