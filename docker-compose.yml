@@ -20,6 +20,7 @@ services:
       - db
     volumes:
       - ./back/config.yaml:/config.yaml
+      - ./uploads:/uploads
     ports:
       - 1323:80
 

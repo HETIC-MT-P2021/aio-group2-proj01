@@ -14,4 +14,6 @@ func InitRoutes(e *echo.Echo) {
 	e.GET("/", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, e.Routes())
 	})
+
+	e.Static("/picture", "uploads")
 }

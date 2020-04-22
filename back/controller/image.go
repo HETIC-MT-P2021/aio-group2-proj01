@@ -5,6 +5,8 @@ import (
 	"back/model"
 	"net/http"
 	"strconv"
+	"io"
+	"os"
 
 	"github.com/labstack/echo/v4"
 )
@@ -36,23 +38,45 @@ func GetAllImage(c echo.Context) error {
 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
 }
 
-// TODO
+func AddImage(c echo.Context) error {
+	var image e.Image
 
-// func AddImage(c echo.Context) error {
-// 	var image e.Image
-// 	err := c.Bind(&image)
-// 	if err != nil {
-// 		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
-// 	}
+	err := c.Bind(&image)
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
 
-// 	err = model.InsertImage(&image)
-// 	if err != nil {
-// 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
-// 	}
+	file, err := c.FormFile("file")
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	src, err := file.Open()
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	defer src.Close()
+	// Destination
+	uploadFilePath := "/uploads/" + file.Filename
+	dst, err := os.Create(uploadFilePath)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	defer dst.Close()
+	// Copy
+	if _, err = io.Copy(dst, src); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
 
-// 	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "ok", EmptyValue))
+	image.URL = "http://localhost:1323/picture/" + file.Filename
 
-// }
+	err = model.InsertImage(&image)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "ok", EmptyValue))
+
+}
 
 func RemoveImage(c echo.Context) error {
 	imageID, err := strconv.Atoi(c.Param("id"))
