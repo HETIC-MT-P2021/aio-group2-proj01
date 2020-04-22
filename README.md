@@ -8,6 +8,18 @@
 
 ## Usage
 
+
+Required development environment:
+- [Docker](https://www.docker.com)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+Configure the development environment on your local machine:
+```bash
+$ git clone https://github.com/HETIC-MT-P2021/aio-group2-proj01.git
+$ cd aio-group2-proj01
+$ docker-compose up -d
+=======
+
 Required development environment:
 - [Docker](https://www.docker.com)
 - [Docker Compose](https://docs.docker.com/compose/install/)
@@ -40,6 +52,8 @@ Commands:
   rebuild/front        Rebuild the front project
   urls                 Get project's URL
 ```
+
+You can now access the api: [http://localhost:1323/](http://localhost:1323/).
 
 ## Author
 
