@@ -5,6 +5,7 @@ import (
 	"back/model"
 	"net/http"
 	"strconv"
+	"strings"
 	"io"
 	"os"
 
@@ -84,7 +85,20 @@ func RemoveImage(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
+	res, err := model.GetImageById(imageID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
 	err = model.DeleteImage(imageID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
+
+	s := strings.Split(res.URL, "/picture/")
+	fileName := s[1]
+
+	err = os.Remove("/uploads/" + fileName )
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
