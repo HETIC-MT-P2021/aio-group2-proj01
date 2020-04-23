@@ -106,26 +106,24 @@ func RemoveImage(c echo.Context) error {
 	return c.JSON(http.StatusAccepted, "ok")
 }
 
-// TODO
+func EditImage(c echo.Context) error {
+	var image e.Image
+	imageID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
 
-// func EditImage(c echo.Context) error {
-// 	var image e.Image
-// 	imageID, err := strconv.Atoi(c.Param("id"))
-// 	if err != nil {
-// 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
-// 	}
+	err = c.Bind(&image)
+	if err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusUnprocessableEntity, err.Error(), EmptyValue))
+	}
 
-// 	err = c.Bind(&image)
-// 	if err != nil {
-// 		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusUnprocessableEntity, err.Error(), EmptyValue))
-// 	}
+	image.ID = imageID
 
-// 	image.ID = imageID
+	err = model.UpdateImage(&image)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
+	}
 
-// 	err = model.UpdateImage(&image)
-// 	if err != nil {
-// 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
-// 	}
-
-// 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "edited", EmptyValue))
-// }
+	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "edited", EmptyValue))
+}

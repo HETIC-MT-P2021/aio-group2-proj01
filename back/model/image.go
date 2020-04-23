@@ -86,7 +86,7 @@ func DeleteImage(imageID int) error {
 
 	if rowsAffected == 0 {
 		tx.Rollback()
-		return errors.New("data is not found")
+		return errors.New("Data is not found")
 	}
 
 	if rowsAffected > 1 {
@@ -96,39 +96,39 @@ func DeleteImage(imageID int) error {
 	tx.Commit()
 	return nil
 }
-// TODO
 
-// func UpdateImage(image *e.Image) error {
 
-// 	const query = `UPDATE image SET name = $2, description = $3, id_category = $4 WHERE id_image = $1`
-// 	tx, err := db.DB.Begin()
-// 	if err != nil {
-// 		return err
-// 	}
+func UpdateImage(image *e.Image) error {
 
-// 	res, err := tx.Exec(query, image.ID, image.Description, &image.IDCategory, &image.URL)
-// 	if err != nil {
-// 		tx.Rollback()
-// 		return err
-// 	}
+	const query = `UPDATE image SET name = $2, description = $3, id_category = $4 WHERE id_image = $1`
+	tx, err := db.DB.Begin()
+	if err != nil {
+		return err
+	}
 
-// 	rowsAffected, err := res.RowsAffected()
-// 	if err != nil {
-// 		tx.Rollback()
-// 		return err
-// 	}
+	res, err := tx.Exec(query, image.ID, image.Description, &image.IDCategory)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
 
-// 	if rowsAffected == 0 {
-// 		tx.Rollback()
-// 		return errors.New("data is not found")
-// 	}
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
 
-// 	if rowsAffected > 1 {
-// 		tx.Rollback()
-// 		return errors.New("Strange behaviour. Total affected is : " + string(rowsAffected))
-// 	}
+	if rowsAffected == 0 {
+		tx.Rollback()
+		return errors.New("Data is not found")
+	}
 
-// 	tx.Commit()
+	if rowsAffected > 1 {
+		tx.Rollback()
+		return errors.New("Strange behaviour. Total affected is : " + string(rowsAffected))
+	}
 
-// 	return nil
-// }
+	tx.Commit()
+
+	return nil
+}
