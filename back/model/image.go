@@ -100,13 +100,13 @@ func DeleteImage(imageID int) error {
 
 func UpdateImage(image *e.Image) error {
 
-	const query = `UPDATE image SET name = $2, description = $3, id_category = $4 WHERE id_image = $1`
+	const query = `UPDATE image SET description = $2, id_category = $3 WHERE id_image = $1`
 	tx, err := db.DB.Begin()
 	if err != nil {
 		return err
 	}
 
-	res, err := tx.Exec(query, image.ID, image.Description, &image.IDCategory)
+	res, err := tx.Exec(query, image.ID, image.Description, image.IDCategory)
 	if err != nil {
 		tx.Rollback()
 		return err
