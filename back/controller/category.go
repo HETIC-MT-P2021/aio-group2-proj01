@@ -52,7 +52,7 @@ func AddCategory(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "ok", EmptyValue))
+	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "Ok", EmptyValue))
 
 }
 
@@ -67,7 +67,7 @@ func RemoveCategory(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	return c.JSON(http.StatusAccepted, "ok")
+	return c.JSON(http.StatusAccepted, "Ok")
 }
 
 func EditCategory(c echo.Context) error {
@@ -89,5 +89,5 @@ func EditCategory(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "edited", EmptyValue))
+	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "Edited", EmptyValue))
 }
