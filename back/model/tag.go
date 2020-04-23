@@ -102,7 +102,7 @@ func DeleteTag(tagID int) error {
 
 	if rowsAffected == 0 {
 		tx.Rollback()
-		return errors.New("data is not found")
+		return errors.New("Data is not found")
 	}
 
 	if rowsAffected > 1 {
@@ -135,7 +135,7 @@ func UpdateTag(tag *e.Tag) error {
 
 	if rowsAffected == 0 {
 		tx.Rollback()
-		return errors.New("data is not found")
+		return errors.New("Data is not found")
 	}
 
 	if rowsAffected > 1 {

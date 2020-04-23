@@ -102,7 +102,7 @@ func DeleteCategory(categoryID int) error {
 
 	if rowsAffected == 0 {
 		tx.Rollback()
-		return errors.New("data is not found")
+		return errors.New("Data is not found")
 	}
 
 	if rowsAffected > 1 {
@@ -135,7 +135,7 @@ func UpdateCategory(category *e.Category) error {
 
 	if rowsAffected == 0 {
 		tx.Rollback()
-		return errors.New("data is not found")
+		return errors.New("Data is not found")
 	}
 
 	if rowsAffected > 1 {
