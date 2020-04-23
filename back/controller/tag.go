@@ -30,7 +30,7 @@ func GetAllTag(c echo.Context) error {
 	}
 
 	if len(res) == 0 {
-		return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "tag is empty", EmptyValue))
+		return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "Tag is empty", EmptyValue))
 	}
 
 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
@@ -48,7 +48,7 @@ func AddTag(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "ok", EmptyValue))
+	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "Ok", EmptyValue))
 
 }
 
@@ -63,7 +63,7 @@ func RemoveTag(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	return c.JSON(http.StatusAccepted, "ok")
+	return c.JSON(http.StatusAccepted, "Ok")
 }
 
 func EditTag(c echo.Context) error {
@@ -85,5 +85,5 @@ func EditTag(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "edited", EmptyValue))
+	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "Edited", EmptyValue))
 }
