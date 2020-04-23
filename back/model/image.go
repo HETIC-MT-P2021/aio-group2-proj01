@@ -9,8 +9,15 @@ import (
 
 func GetImageById(imageID int) (e.Image, error)  {
 	var image e.Image
-	const query = `SELECT * FROM image WHERE id_image = $1`
-	err := db.DB.QueryRow(query, imageID).Scan(&image.ID, &image.Description, &image.IDCategory, &image.URL, &image.CreatedAt)
+	const query = `SELECT *,
+						(select concat('', string_agg(t.name, ','))
+						FROM tag as t
+								LEFT JOIN image_tag as it
+										ON (it.id_tag = t.id_tag)
+						WHERE id_image = $1) as tag
+					FROM image as i
+					WHERE id_image = $1`
+	err := db.DB.QueryRow(query, imageID).Scan(&image.ID, &image.Description, &image.IDCategory, &image.URL, &image.CreatedAt, &image.Tag)
 
 	if err == sql.ErrNoRows {
 		return image, errors.New("Image is not found")
@@ -27,14 +34,20 @@ func GetAllImage() ([]e.Image, error) {
 	var image e.Image
 	var imageList []e.Image
 
-	rows, err := db.DB.Query(`SELECT * FROM image order by id_image`)
+	rows, err := db.DB.Query(`SELECT *,
+								(select concat('', string_agg(t.name, ','))
+								FROM tag as t
+										LEFT JOIN image_tag as it
+												ON (it.id_tag = t.id_tag)
+								WHERE id_image = i.id_image) as tag
+							FROM image as i`)
 	if err != nil {
 		return imageList, err
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-		err = rows.Scan(&image.ID, &image.Description, &image.IDCategory, &image.URL, &image.CreatedAt)
+		err = rows.Scan(&image.ID, &image.Description, &image.IDCategory, &image.URL, &image.CreatedAt, &image.Tag)
 		if err != nil {
 			return imageList, err
 		}
