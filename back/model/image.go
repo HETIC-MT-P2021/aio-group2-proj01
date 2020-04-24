@@ -98,26 +98,6 @@ func InsertImage(image *e.Image) error {
 	}
 
 	return nil
-
-	// const query = `INSERT INTO "image" ("description", "id_category", "url") VALUES ($1, $2, $3) RETURNING id_image`
-	// tx, err := db.DB.Begin()
-	// if err != nil {
-	// 	return err
-	// }
-
-	// _, err = tx.Exec(query, image.Description, image.IDCategory, image.URL)
-	// if err != nil {
-	// 	tx.Rollback()
-	// 	return err
-	// }
-
-	// tx.Commit()
-
-	// if image.Tag != "" {
-
-	// }
-
-	// return nil
 }
 
 func DeleteImage(imageID int) error {
