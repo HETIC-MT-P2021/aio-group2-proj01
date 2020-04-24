@@ -163,7 +163,40 @@ func UpdateImage(image *e.Image) error {
 		return errors.New("Strange behaviour. Total affected is : " + string(rowsAffected))
 	}
 
+	const queryDeleteImageTag = `DELETE FROM image_tag WHERE id_image = $1`
+	res, err = tx.Exec(queryDeleteImageTag, image.ID)
+	if err != nil {
+		tx.Rollback()
+		return err
+	}
+
 	tx.Commit()
+
+		if image.Tag != "" {
+		t := strings.Split(image.Tag, ",")
+		var aTag int
+		for _, element := range t {
+			aTag, err = strconv.Atoi(element)
+			if err != nil {
+				return err
+			}
+			queryImageTag := `INSERT INTO "image_tag" ("id_image", "id_tag") VALUES ($1, $2)`
+			tx, err := db.DB.Begin()
+			if err != nil {
+				return err
+			}
+			_, err = tx.Exec(queryImageTag, &image.ID, aTag)
+			if err != nil {
+				tx.Rollback()
+				return err
+			}
+			tx.Commit()
+	
+			if err != nil {
+				return err
+			}
+		}
+	}
 
 	return nil
 }
