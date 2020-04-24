@@ -6,5 +6,4 @@ type Image struct {
 	IDCategory  string `json:"id_category"`
 	URL  string `json:"url"`
 	CreatedAt   string `json:"created_at"`
-	Tag   string `json:"tag"`
 }
