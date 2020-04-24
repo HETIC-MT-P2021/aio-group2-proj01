@@ -5,6 +5,8 @@ import (
 	e "back/entity"
 	"database/sql"
 	"errors"
+	"strings"
+	"strconv"
 )
 
 func GetImageById(imageID int) (e.Image, error)  {
@@ -62,20 +64,60 @@ func GetAllImage() ([]e.Image, error) {
 }
 
 func InsertImage(image *e.Image) error {
-	const query = `INSERT INTO "image" ("description", "id_category", "url") VALUES ($1, $2, $3)`
-	tx, err := db.DB.Begin()
+	const query = `INSERT INTO "image" ("description", "id_category", "url") VALUES ($1, $2, $3) RETURNING id_image`
+	err := db.DB.QueryRow(query, &image.Description, &image.IDCategory, &image.URL).Scan(&image.ID)
+
 	if err != nil {
 		return err
 	}
 
-	_, err = tx.Exec(query, image.Description, image.IDCategory, image.URL)
-	if err != nil {
-		tx.Rollback()
-		return err
+	if image.Tag != "" {
+		t := strings.Split(image.Tag, ",")
+		var aTag int
+		for _, element := range t {
+			aTag, err = strconv.Atoi(element)
+			if err != nil {
+				return err
+			}
+			queryImageTag := `INSERT INTO "image_tag" ("id_image", "id_tag") VALUES ($1, $2)`
+			tx, err := db.DB.Begin()
+			if err != nil {
+				return err
+			}
+			_, err = tx.Exec(queryImageTag, &image.ID, aTag)
+			if err != nil {
+				tx.Rollback()
+				return err
+			}
+			tx.Commit()
+	
+			if err != nil {
+				return err
+			}
+		}
 	}
 
-	tx.Commit()
 	return nil
+
+	// const query = `INSERT INTO "image" ("description", "id_category", "url") VALUES ($1, $2, $3) RETURNING id_image`
+	// tx, err := db.DB.Begin()
+	// if err != nil {
+	// 	return err
+	// }
+
+	// _, err = tx.Exec(query, image.Description, image.IDCategory, image.URL)
+	// if err != nil {
+	// 	tx.Rollback()
+	// 	return err
+	// }
+
+	// tx.Commit()
+
+	// if image.Tag != "" {
+
+	// }
+
+	// return nil
 }
 
 func DeleteImage(imageID int) error {
