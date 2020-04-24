@@ -62,6 +62,16 @@ Commands:
   urls                 Get project's URL
 ```
 
+## Documentation
+
+### API Doc
+
+Postman documentation of the API is available here : [API Documentation](https://documenter.getpostman.com/view/5724091/SzfAymPy?version=latest)
+
+### Technical documentation
+
+Lorem ipsum esta la documetation : [Technical Documentation](https://github.com/HETIC-MT-P2021/aio-group2-proj01)
+
 ## Author
 
 <table>
