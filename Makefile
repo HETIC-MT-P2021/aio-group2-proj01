@@ -64,3 +64,17 @@ urls: ## Get project's URL
 	@echo "${GREEN}You can access your project at the following URLS:${RESET}"
 	@echo "------------------------------------------------------------"
 	@$(DOCKER_COMPOSE) ps -q | xargs -n1 -I ID sh -c 'docker inspect --format="{{.Config.Image}}" ID ; docker port ID' | xargs -n4 printf '%-30s: %s %s %s\n' | sed "s/0.0.0.0/http:\/\/localhost/"
+
+.PHONY: lint/go
+lint/go: ## Run golangci-lint (All-In-One config)
+	@docker run --rm --volume ${PWD}/back:/app -w /app golangci/golangci-lint golangci-lint run --out-format tab --enable-all --exclude-use-default=false | \
+	awk -F '[[:space:]][[:space:]]+' '{ \
+		split($$1, fileInfo, ":") ; \
+		dottingLenght = 80 ; \
+		dotting = sprintf("%*s", dottingLenght, ""); gsub(/ /, "- ", dotting) ; \
+		printf "\n\n\033[36m- - %s %0.*s %s\033[m", toupper($$2), dottingLenght-length($$1)-length($$2), dotting, fileInfo[1] ; \
+		printf "\n\n\033[1mLine %s, Column %s", fileInfo[2], fileInfo[3] ; \
+		printf "\n\n\033[1m%s\n\n", $$3 ; \
+		system(sprintf("printf \"\033[33m%s| \033[m\" && sed -n %sp ./back/%s | sed -e \"s/\t/ /g\"", fileInfo[2], fileInfo[2], fileInfo[1])) ; \
+		printf "\033[31m\033[1m%*s\033[m\n", fileInfo[3]+length(fileInfo[2])+2, "^" ; \
+	} END { printf "\033[31m%s errors detected", NR	}'
