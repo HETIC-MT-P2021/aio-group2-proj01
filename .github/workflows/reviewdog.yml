@@ -2,11 +2,11 @@ name: reviewdog
 on:
   push:
     paths:
-      - ".github/workflows/ci-back.yml"
+      - ".github/workflows/reviewdog.yml"
       - "back/**"
   pull_request:
     paths:
-      - ".github/workflows/ci-back.yml"
+      - ".github/workflows/reviewdog.yml"
       - "back/**"
 
 env:
