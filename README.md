@@ -38,8 +38,10 @@ $ make up
 
 You can now access the api: [http://localhost:1323/](http://localhost:1323/).
 
-<p align="center" style="margin: 40px 0">
-  <img src="https://user-images.githubusercontent.com/27848278/80033563-3cc6d280-84ed-11ea-8721-94331b52e23b.gif" style="max-width: 80%;">
+<p align="center">
+  <br>
+  <img src="https://user-images.githubusercontent.com/27848278/80246213-55a9c200-866c-11ea-969a-089b5fdf9a14.gif" width="80%">
+  <br>
 </p>
 
 ## Use the command line
