@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"math/rand"
 
 	"github.com/labstack/echo/v4"
 )
@@ -44,6 +45,7 @@ func GetAllImage(c echo.Context) error {
 
 func AddImage(c echo.Context) (err error) {
 	var image e.Image
+	hash := randomString(15)
 
 	if err = c.Bind(&image); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
@@ -64,7 +66,7 @@ func AddImage(c echo.Context) (err error) {
 	defer src.Close()
 
 	// Destination
-	uploadFilePath := "/uploads/" + file.Filename
+	uploadFilePath := "/uploads/" + hash + "." + file.Filename
 	dst, err := os.Create(uploadFilePath)
 
 	if err != nil {
@@ -77,7 +79,7 @@ func AddImage(c echo.Context) (err error) {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	image.URL = "http://localhost:1323/picture/" + file.Filename
+	image.URL = "http://localhost:1323/picture/" + hash + "." + file.Filename
 
 	err = model.InsertImage(&image)
 
@@ -139,4 +141,18 @@ func EditImage(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "Edited", EmptyValue))
+}
+
+
+// Returns an int >= min, < max
+func randomInt(min, max int) int {
+    return min + rand.Intn(max-min)
+}
+
+func randomString(len int) string {
+    bytes := make([]byte, len)
+    for i := 0; i < len; i++ {
+        bytes[i] = byte(randomInt(97, 122))
+    }
+    return string(bytes)
 }
