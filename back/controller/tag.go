@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// GetTag returns a JSON object for one tag.
 func GetTag(c echo.Context) error {
 	tagID, err := strconv.Atoi(c.Param("id"))
 
@@ -25,6 +26,7 @@ func GetTag(c echo.Context) error {
 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
 }
 
+// GetAllTag returns a JSON list of tags.
 func GetAllTag(c echo.Context) error {
 	res, err := model.GetAllTag()
 
@@ -39,6 +41,7 @@ func GetAllTag(c echo.Context) error {
 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
 }
 
+// AddTag creates a new tag from JSON request.
 func AddTag(c echo.Context) error {
 	var tag e.Tag
 
@@ -53,6 +56,7 @@ func AddTag(c echo.Context) error {
 	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "Ok", EmptyValue))
 }
 
+// RemoveTag Delete tag from JSON request.
 func RemoveTag(c echo.Context) error {
 	tagID, err := strconv.Atoi(c.Param("id"))
 
@@ -69,6 +73,7 @@ func RemoveTag(c echo.Context) error {
 	return c.JSON(http.StatusAccepted, "Ok")
 }
 
+// EditTag updates a tag from JSON request.
 func EditTag(c echo.Context) error {
 	var tag e.Tag
 

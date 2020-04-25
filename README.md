@@ -72,7 +72,7 @@ Postman documentation of the API is available here : [API Documentation](https:/
 
 ### Technical documentation
 
-Lorem ipsum esta la documetation : [Technical Documentation](https://github.com/HETIC-MT-P2021/aio-group2-proj01)
+The technical documentation of the project is available on GoDoc here : [Technical Documentation](https://godoc.org/github.com/HETIC-MT-P2021/aio-group2-proj01/back)
 
 ## Author
 

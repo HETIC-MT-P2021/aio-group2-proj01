@@ -7,6 +7,7 @@ import (
 	"errors"
 )
 
+// GetCategoryByID returns data of a category.
 func GetCategoryByID(categoryID int) (e.Category, error) {
 	var category e.Category
 
@@ -24,6 +25,7 @@ func GetCategoryByID(categoryID int) (e.Category, error) {
 	return category, nil
 }
 
+// GetAllCategory returns list of data of all categories.
 func GetAllCategory() ([]e.Category, error) {
 	var category e.Category
 
@@ -55,22 +57,7 @@ func GetAllCategory() ([]e.Category, error) {
 	return categoryList, nil
 }
 
-func CountCategory() (int, error) {
-	var countCategory int
-
-	err := db.DB.QueryRow("SELECT count(*) FROM category").Scan(&countCategory)
-
-	if err == sql.ErrNoRows {
-		return 0, errors.New("category is empty")
-	}
-
-	if err != nil {
-		return 0, err
-	}
-
-	return countCategory, nil
-}
-
+// InsertCategory insert new category in database.
 func InsertCategory(category *e.Category) error {
 	const query = `INSERT INTO "category" ("name", "description") VALUES ($1, $2)`
 
@@ -92,6 +79,7 @@ func InsertCategory(category *e.Category) error {
 	return nil
 }
 
+// DeleteCategory delete a category of the database.
 func DeleteCategory(categoryID int) error {
 	const query = `DELETE FROM category WHERE id_category = $1`
 
@@ -129,6 +117,7 @@ func DeleteCategory(categoryID int) error {
 	return nil
 }
 
+// UpdateCategory update a category in the database.
 func UpdateCategory(category *e.Category) error {
 	const query = `UPDATE category SET name = $2, description = $3 WHERE id_category = $1`
 

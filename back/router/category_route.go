@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// ParamValidation validate the paramater of the request.
 func ParamValidation(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		paramKey := c.ParamNames()
@@ -25,6 +26,7 @@ func ParamValidation(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+// SetCategoryRoutes define all cateogries routes.
 func SetCategoryRoutes(e *echo.Echo) {
 	e.GET("/category/:id", controller.GetCategory, ParamValidation)
 	e.GET("/category", controller.GetAllCategory)

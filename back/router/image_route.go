@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// SetImageRoutes define all images routes.
 func SetImageRoutes(e *echo.Echo) {
 	e.GET("/image/:id", controller.GetImage, ParamValidation)
 	e.GET("/image", controller.GetAllImage)
