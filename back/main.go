@@ -1,3 +1,5 @@
+// Web application written in Go & ELM used to manage a photo album 
+
 package main
 
 import (
