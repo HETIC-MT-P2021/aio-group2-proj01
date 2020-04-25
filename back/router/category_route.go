@@ -2,12 +2,13 @@ package router
 
 import (
 	"back/controller"
-	"github.com/labstack/echo/v4"
 	"net/http"
 	"regexp"
+
+	"github.com/labstack/echo/v4"
 )
 
-func paramValidation(next echo.HandlerFunc) echo.HandlerFunc {
+func ParamValidation(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		paramKey := c.ParamNames()
 		paramValue := c.ParamValues()
@@ -25,9 +26,9 @@ func paramValidation(next echo.HandlerFunc) echo.HandlerFunc {
 }
 
 func SetCategoryRoutes(e *echo.Echo) {
-	e.GET("/category/:id", controller.GetCategory, paramValidation)
+	e.GET("/category/:id", controller.GetCategory, ParamValidation)
 	e.GET("/category", controller.GetAllCategory)
 	e.POST("/category", controller.AddCategory)
-	e.PUT("/category/:id", controller.EditCategory, paramValidation)
-	e.DELETE("/category/:id", controller.RemoveCategory, paramValidation)
+	e.PUT("/category/:id", controller.EditCategory, ParamValidation)
+	e.DELETE("/category/:id", controller.RemoveCategory, ParamValidation)
 }

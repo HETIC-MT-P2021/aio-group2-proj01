@@ -11,10 +11,13 @@ import (
 
 func GetTag(c echo.Context) error {
 	tagID, err := strconv.Atoi(c.Param("id"))
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
-	res, err := model.GetTagById(tagID)
+
+	res, err := model.GetTagByID(tagID)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
@@ -23,8 +26,8 @@ func GetTag(c echo.Context) error {
 }
 
 func GetAllTag(c echo.Context) error {
-
 	res, err := model.GetAllTag()
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
@@ -38,27 +41,27 @@ func GetAllTag(c echo.Context) error {
 
 func AddTag(c echo.Context) error {
 	var tag e.Tag
-	err := c.Bind(&tag)
-	if err != nil {
+
+	if err := c.Bind(&tag); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	err = model.InsertTag(&tag)
-	if err != nil {
+	if err := model.InsertTag(&tag); err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
 	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "Ok", EmptyValue))
-
 }
 
 func RemoveTag(c echo.Context) error {
 	tagID, err := strconv.Atoi(c.Param("id"))
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
 	err = model.DeleteTag(tagID)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
@@ -68,20 +71,19 @@ func RemoveTag(c echo.Context) error {
 
 func EditTag(c echo.Context) error {
 	var tag e.Tag
+
 	tagID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	err = c.Bind(&tag)
-	if err != nil {
+	if err := c.Bind(&tag); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusUnprocessableEntity, err.Error(), EmptyValue))
 	}
 
 	tag.ID = tagID
 
-	err = model.UpdateTag(&tag)
-	if err != nil {
+	if err := model.UpdateTag(&tag); err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
