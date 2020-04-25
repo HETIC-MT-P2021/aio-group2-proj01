@@ -12,6 +12,7 @@ var (
 	DB *sql.DB
 )
 
+// GetPostgresDataSourceName returns environment variable for database connection.
 func GetPostgresDataSourceName() string {
 	return fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=disable&application_name=%s",
@@ -24,6 +25,7 @@ func GetPostgresDataSourceName() string {
 	)
 }
 
+// Connect connect to the database.
 func Connect() {
 	var err error
 

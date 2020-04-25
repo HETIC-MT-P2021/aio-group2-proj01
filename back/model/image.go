@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+// GetImageByID returns data of a image.
 func GetImageByID(imageID int) (e.Image, error) {
 	var image e.Image
 
@@ -33,6 +34,7 @@ func GetImageByID(imageID int) (e.Image, error) {
 	return image, nil
 }
 
+// GetAllImage returns list of data of all images.
 func GetAllImage() ([]e.Image, error) {
 	var image e.Image
 
@@ -70,6 +72,7 @@ func GetAllImage() ([]e.Image, error) {
 	return imageList, nil
 }
 
+// InsertImage insert new image in database.
 func InsertImage(image *e.Image) error {
 	const query = `INSERT INTO "image" ("description", "id_category", "url") VALUES ($1, $2, $3) RETURNING id_image`
 	err := db.DB.QueryRow(query, &image.Description, &image.IDCategory, &image.URL).Scan(&image.ID)
@@ -114,6 +117,7 @@ func InsertImage(image *e.Image) error {
 	return nil
 }
 
+// DeleteImage delete a image of the database.
 func DeleteImage(imageID int) error {
 	const query = `DELETE FROM image WHERE id_image = $1`
 
@@ -149,6 +153,7 @@ func DeleteImage(imageID int) error {
 	return nil
 }
 
+// UpdateImage update a image in the database.
 func UpdateImage(image *e.Image) error {
 	const query = `UPDATE image
 				   SET description = $2, id_category = $3

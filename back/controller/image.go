@@ -14,6 +14,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// GetImage returns a JSON object for one image.
 func GetImage(c echo.Context) error {
 	imageID, err := strconv.Atoi(c.Param("id"))
 
@@ -30,6 +31,7 @@ func GetImage(c echo.Context) error {
 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
 }
 
+// GetAllImage returns a JSON list of images.
 func GetAllImage(c echo.Context) error {
 	res, err := model.GetAllImage()
 
@@ -44,6 +46,7 @@ func GetAllImage(c echo.Context) error {
 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
 }
 
+// AddImage creates a new image from JSON request.
 func AddImage(c echo.Context) (err error) {
 	var image e.Image
 	hash := md5.New()
@@ -91,6 +94,7 @@ func AddImage(c echo.Context) (err error) {
 	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "Ok", EmptyValue))
 }
 
+// RemoveImage Delete image from JSON request.
 func RemoveImage(c echo.Context) error {
 	imageID, err := strconv.Atoi(c.Param("id"))
 
@@ -122,6 +126,7 @@ func RemoveImage(c echo.Context) error {
 	return c.JSON(http.StatusAccepted, "Ok")
 }
 
+// EditImage updates a image from JSON request.
 func EditImage(c echo.Context) error {
 	var image e.Image
 

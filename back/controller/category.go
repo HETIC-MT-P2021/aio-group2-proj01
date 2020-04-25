@@ -13,6 +13,7 @@ var (
 	EmptyValue = make([]int, 0)
 )
 
+// GetCategory returns a JSON object for one category.
 func GetCategory(c echo.Context) error {
 	categoryID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -27,6 +28,7 @@ func GetCategory(c echo.Context) error {
 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
 }
 
+// GetAllCategory returns a JSON list of categories.
 func GetAllCategory(c echo.Context) error {
 	res, err := model.GetAllCategory()
 	if err != nil {
@@ -40,6 +42,7 @@ func GetAllCategory(c echo.Context) error {
 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
 }
 
+// AddCategory creates a new category from JSON request.
 func AddCategory(c echo.Context) error {
 	var category e.Category
 
@@ -54,6 +57,7 @@ func AddCategory(c echo.Context) error {
 	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "Ok", EmptyValue))
 }
 
+// RemoveCategory Delete category from JSON request.
 func RemoveCategory(c echo.Context) error {
 	categoryID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -68,6 +72,7 @@ func RemoveCategory(c echo.Context) error {
 	return c.JSON(http.StatusAccepted, "Ok")
 }
 
+// EditCategory updates a category from JSON request.
 func EditCategory(c echo.Context) error {
 	var category e.Category
 

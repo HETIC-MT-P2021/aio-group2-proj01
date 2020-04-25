@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// SetTagRoutes define all tags routes.
 func SetTagRoutes(e *echo.Echo) {
 	e.GET("/tag/:id", controller.GetTag, ParamValidation)
 	e.GET("/tag", controller.GetAllTag)

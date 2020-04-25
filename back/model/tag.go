@@ -7,6 +7,7 @@ import (
 	"errors"
 )
 
+// GetTagByID returns data of a tag.
 func GetTagByID(tagID int) (e.Tag, error) {
 	var tag e.Tag
 
@@ -24,6 +25,7 @@ func GetTagByID(tagID int) (e.Tag, error) {
 	return tag, nil
 }
 
+// GetAllTag returns list of data of all tags.
 func GetAllTag() ([]e.Tag, error) {
 	var tag e.Tag
 
@@ -55,22 +57,7 @@ func GetAllTag() ([]e.Tag, error) {
 	return tagList, nil
 }
 
-func CountTag() (int, error) {
-	var countTag int
-
-	err := db.DB.QueryRow("SELECT count(*) FROM tag").Scan(&countTag)
-
-	if err == sql.ErrNoRows {
-		return 0, errors.New("tag is empty")
-	}
-
-	if err != nil {
-		return 0, err
-	}
-
-	return countTag, nil
-}
-
+// InsertTag insert new image in tag.
 func InsertTag(tag *e.Tag) error {
 	const query = `INSERT INTO "tag" ("name") VALUES ($1)`
 
@@ -90,6 +77,7 @@ func InsertTag(tag *e.Tag) error {
 	return nil
 }
 
+// DeleteTag delete a tag of the database.
 func DeleteTag(tagID int) error {
 	const query = `DELETE FROM tag WHERE id_tag = $1`
 
@@ -126,6 +114,7 @@ func DeleteTag(tagID int) error {
 	return nil
 }
 
+// UpdateTag update a tag in the database.
 func UpdateTag(tag *e.Tag) error {
 	const query = `UPDATE tag SET name = $2 WHERE id_tag = $1`
 
