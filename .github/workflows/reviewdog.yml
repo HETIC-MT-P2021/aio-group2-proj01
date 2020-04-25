@@ -50,5 +50,5 @@ jobs:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd back
-          $(go env GOPATH)/bin/golangci-lint run --out-format=line-number --enable-all --exclude-use-default=false ./... \
-          | reviewdog -f=golangci-lint -name="golangci" -reporter="github-check" -level="error"
+          $(go env GOPATH)/bin/golangci-lint run --out-format=line-number ./... \
+          | reviewdog -f=golangci-lint -name="golangci" -reporter="github-check" -level="warning"

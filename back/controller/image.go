@@ -3,21 +3,24 @@ package controller
 import (
 	e "back/entity"
 	"back/model"
+	"io"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
-	"io"
-	"os"
 
 	"github.com/labstack/echo/v4"
 )
 
 func GetImage(c echo.Context) error {
 	imageID, err := strconv.Atoi(c.Param("id"))
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
-	res, err := model.GetImageById(imageID)
+
+	res, err := model.GetImageByID(imageID)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
@@ -26,8 +29,8 @@ func GetImage(c echo.Context) error {
 }
 
 func GetAllImage(c echo.Context) error {
-
 	res, err := model.GetAllImage()
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
@@ -39,30 +42,36 @@ func GetAllImage(c echo.Context) error {
 	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
 }
 
-func AddImage(c echo.Context) error {
+func AddImage(c echo.Context) (err error) {
 	var image e.Image
 
-	err := c.Bind(&image)
-	if err != nil {
+	if err = c.Bind(&image); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
 	file, err := c.FormFile("file")
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
+
+	// Source
 	src, err := file.Open()
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	defer src.Close()
+
 	// Destination
 	uploadFilePath := "/uploads/" + file.Filename
 	dst, err := os.Create(uploadFilePath)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	defer dst.Close()
+
 	// Copy
 	if _, err = io.Copy(dst, src); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
@@ -71,26 +80,29 @@ func AddImage(c echo.Context) error {
 	image.URL = "http://localhost:1323/picture/" + file.Filename
 
 	err = model.InsertImage(&image)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
 	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "Ok", EmptyValue))
-
 }
 
 func RemoveImage(c echo.Context) error {
 	imageID, err := strconv.Atoi(c.Param("id"))
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	res, err := model.GetImageById(imageID)
+	res, err := model.GetImageByID(imageID)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
 	err = model.DeleteImage(imageID)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
@@ -98,7 +110,8 @@ func RemoveImage(c echo.Context) error {
 	s := strings.Split(res.URL, "/picture/")
 	fileName := s[1]
 
-	err = os.Remove("/uploads/" + fileName )
+	err = os.Remove("/uploads/" + fileName)
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
@@ -108,20 +121,20 @@ func RemoveImage(c echo.Context) error {
 
 func EditImage(c echo.Context) error {
 	var image e.Image
+
 	imageID, err := strconv.Atoi(c.Param("id"))
+
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	err = c.Bind(&image)
-	if err != nil {
+	if err := c.Bind(&image); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusUnprocessableEntity, err.Error(), EmptyValue))
 	}
 
 	image.ID = imageID
 
-	err = model.UpdateImage(&image)
-	if err != nil {
+	if err := model.UpdateImage(&image); err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 

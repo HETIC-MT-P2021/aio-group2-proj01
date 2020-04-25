@@ -4,6 +4,7 @@ import (
 	"back/db"
 	r "back/router"
 	"fmt"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
@@ -12,16 +13,17 @@ import (
 func initConfig() {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
+	viper.AddConfigPath("./back")
 	viper.AddConfigPath(".")
 	viper.AutomaticEnv()
+
 	err := viper.ReadInConfig() // Find and read the config file
 	if err != nil {             // Handle errors reading the config file
-		panic(fmt.Errorf("Fatal error config file: %s \n", err))
+		panic(fmt.Errorf("fatal error config file: %s", err))
 	}
 }
 
 func main() {
-
 	// setup env
 	initConfig()
 
@@ -36,5 +38,4 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.Logger.Fatal(e.Start(":80"))
-
 }

@@ -18,7 +18,8 @@ func GetCategory(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
-	res, err := model.GetCategoryById(categoryID)
+
+	res, err := model.GetCategoryByID(categoryID)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
@@ -27,7 +28,6 @@ func GetCategory(c echo.Context) error {
 }
 
 func GetAllCategory(c echo.Context) error {
-
 	res, err := model.GetAllCategory()
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
@@ -42,18 +42,16 @@ func GetAllCategory(c echo.Context) error {
 
 func AddCategory(c echo.Context) error {
 	var category e.Category
-	err := c.Bind(&category)
-	if err != nil {
+
+	if err := c.Bind(&category); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	err = model.InsertCategory(&category)
-	if err != nil {
+	if err := model.InsertCategory(&category); err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
 	return c.JSON(http.StatusCreated, e.SetResponse(http.StatusCreated, "Ok", EmptyValue))
-
 }
 
 func RemoveCategory(c echo.Context) error {
@@ -72,20 +70,18 @@ func RemoveCategory(c echo.Context) error {
 
 func EditCategory(c echo.Context) error {
 	var category e.Category
+
 	categoryID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	err = c.Bind(&category)
-	if err != nil {
+	if err := c.Bind(&category); err != nil {
 		return c.JSON(http.StatusUnprocessableEntity, e.SetResponse(http.StatusUnprocessableEntity, err.Error(), EmptyValue))
 	}
 
 	category.ID = categoryID
-
-	err = model.UpdateCategory(&category)
-	if err != nil {
+	if err := model.UpdateCategory(&category); err != nil {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
