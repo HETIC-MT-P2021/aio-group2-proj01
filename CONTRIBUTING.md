@@ -41,16 +41,17 @@ Examples of commit messages with semantic prefixes:
 
 Common prefixes:
 
-  - fix: A bug fix
-  - feat: A new feature
-  - docs: Documentation changes
-  - test: Adding missing tests or correcting existing tests
-  - build: Changes that affect the build system
-  - ci: Changes to our CI configuration files and scripts
-  - perf: A code change that improves performance
-  - refactor: A code change that neither fixes a bug nor adds a feature
-  - style: Changes that do not affect the meaning of the code (linting)
-  - vendor: Bumping a dependency like libchromiumcontent or node
+| Types         | Description |
+| ------------- |-------------|
+| fix           | A big fix |
+| feat          | A new feature |
+| docs          | Documentation changes |
+| test          | Adding missing tests or correcting existing tests |
+| build         | Changes that affect the build system or external dependencies |
+| ci            | Changes to our CI configuration files and scripts |
+| perf          | A code change that improves performance |
+| refactor      | A code change that neither fixes a bug nor adds a feature |
+| style         | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc) |
 
 Other things to keep in mind when writing a commit message:
 
