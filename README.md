@@ -4,9 +4,15 @@
 			<strong>ElmBum</strong><br />
 			Web application written in Go & ELM used to manage a photo album
 		</td>
-		<td align="right" width="20%">
+		<td align="right" width="25%">
 			<a href="https://goreportcard.com/report/github.com/HETIC-MT-P2021/aio-group2-proj01">
 				<img src="https://goreportcard.com/badge/github.com/HETIC-MT-P2021/aio-group2-proj01" alt="Go Report Card">
+			</a>
+			<a href="https://godoc.org/github.com/HETIC-MT-P2021/aio-group2-proj01/back/router">
+				<img src="https://godoc.org/github.com/HETIC-MT-P2021/aio-group2-proj01/back/router?status.svg" alt="GoDoc">
+			</a>
+			<a href="https://github.com/HETIC-MT-P2021/aio-group2-proj01/actions?query=workflow%3Areviewdog">
+				<img src="https://github.com/HETIC-MT-P2021/aio-group2-proj01/workflows/reviewdog/badge.svg" alt="reviewdog">
 			</a>
       <a href="https://github.com/HETIC-MT-P2021/aio-group2-proj01/blob/master/LICENSE">
 			  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"/>
