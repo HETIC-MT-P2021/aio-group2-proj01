@@ -1,11 +1,11 @@
 package controller
 
 import (
-	e "back/entity"
-	"back/model"
 	"net/http"
 	"strconv"
 
+	e "github.com/HETIC-MT-P2021/aio-group2-proj01/back/entity"
+	"github.com/HETIC-MT-P2021/aio-group2-proj01/back/model"
 	"github.com/labstack/echo/v4"
 )
 

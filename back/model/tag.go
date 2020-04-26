@@ -1,10 +1,11 @@
 package model
 
 import (
-	"back/db"
-	e "back/entity"
 	"database/sql"
 	"errors"
+
+	"github.com/HETIC-MT-P2021/aio-group2-proj01/back/db"
+	e "github.com/HETIC-MT-P2021/aio-group2-proj01/back/entity"
 )
 
 // GetTagByID returns data of a tag.

@@ -1,8 +1,6 @@
 package controller
 
 import (
-	e "back/entity"
-	"back/model"
 	"io"
 	"net/http"
 	"os"
@@ -11,6 +9,8 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 
+	e "github.com/HETIC-MT-P2021/aio-group2-proj01/back/entity"
+	"github.com/HETIC-MT-P2021/aio-group2-proj01/back/model"
 	"github.com/labstack/echo/v4"
 )
 

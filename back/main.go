@@ -3,10 +3,10 @@
 package main
 
 import (
-	"back/db"
-	r "back/router"
 	"fmt"
 
+	"github.com/HETIC-MT-P2021/aio-group2-proj01/back/db"
+	r "github.com/HETIC-MT-P2021/aio-group2-proj01/back/router"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"

@@ -1,4 +1,4 @@
-module back
+module github.com/HETIC-MT-P2021/aio-group2-proj01/back
 
 go 1.14
 

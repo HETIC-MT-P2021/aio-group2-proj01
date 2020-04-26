@@ -1,8 +1,7 @@
 package router
 
 import (
-	"back/controller"
-
+	"github.com/HETIC-MT-P2021/aio-group2-proj01/back/controller"
 	"github.com/labstack/echo/v4"
 )
 

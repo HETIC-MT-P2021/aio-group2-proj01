@@ -1,12 +1,13 @@
 package model
 
 import (
-	"back/db"
-	e "back/entity"
 	"database/sql"
 	"errors"
 	"strconv"
 	"strings"
+
+	"github.com/HETIC-MT-P2021/aio-group2-proj01/back/db"
+	e "github.com/HETIC-MT-P2021/aio-group2-proj01/back/entity"
 )
 
 // GetImageByID returns data of a image.
