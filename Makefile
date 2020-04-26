@@ -21,7 +21,7 @@ build: ## Build all Docker images of the project
 	@$(DOCKER_COMPOSE) build
 
 .PHONY: up
-up: ## Builds and start all containers (in the background)
+up: build ## Builds and start all containers (in the background)
 	@$(DOCKER_COMPOSE) up -d
 	@make about
 	@make urls
@@ -50,12 +50,24 @@ rebuild/front: ## Rebuild the front project
 	@$(DOCKER_COMPOSE) build nginx
 	@make up
 
+DOCKER_INPECT_FORMAT__AWK ?= "'\''{{.Name}} : {{range $$p, $$conf := .NetworkSettings.Ports}}{{$$p}} -> {{(index $$conf 0).HostIp}}:{{(index $$conf 0).HostPort}}\t{{end}}'\''"
+
 .PHONY: urls
 urls: ## Get project's URL
 	@echo "------------------------------------------------------------"
 	@echo "${GREEN}You can access your project at the following URLS:${RESET}"
 	@echo "------------------------------------------------------------"
-	@$(DOCKER_COMPOSE) ps -q | xargs -n1 -I ID sh -c 'docker inspect --format="{{.Config.Image}}" ID ; docker port ID' | xargs -n4 printf '%-30s: %s %s %s\n' | sed "s/0.0.0.0/http:\/\/localhost/"
+	@$(DOCKER_COMPOSE) ps -q | awk '{ \
+		cmd_docker_inspect = sprintf("docker inspect --format=%s %s", ${DOCKER_INPECT_FORMAT__AWK}, $$0) ; \
+		cmd_docker_inspect | getline docker_inspect ; close(cmd_docker_inspect) ; \
+		gsub(/0.0.0.0/, "http://localhost/", docker_inspect) ; \
+		split(docker_inspect, urls, "\t") ; \
+		printf "%s\n", urls[1] ; \
+		i = 2 ; while (i <= length(urls)) { \
+		index_tab = index(docker_inspect,":") ; \
+		printf "%*s %*s\n", index_tab, "", index_tab, urls[i]; i++ \
+		} ; \
+	}'
 
 .PHONY: about
 about:
@@ -71,12 +83,23 @@ about:
 lint/go: ## Run golangci-lint (All-In-One config)
 	@docker run --rm -v ${PWD}/back:/app -w /app golangci/golangci-lint golangci-lint run --out-format tab | \
 	awk -F '[[:space:]][[:space:]]+' '{ \
-		split($$1, fileInfo, ":") ; \
-		dottingLenght = 80 ; \
-		dotting = sprintf("%*s", dottingLenght, ""); gsub(/ /, "- ", dotting) ; \
-		printf "\n\033[36m- - %s %0.*s %s\033[m", toupper($$2), dottingLenght-length($$1)-length($$2), dotting, fileInfo[1] ; \
-		printf "\n\n\033[1mLine %s, Column %s", fileInfo[2], fileInfo[3] ; \
-		printf "\n\n\033[1m%s\n\n", $$3 ; \
-		system(sprintf("printf \"\033[33m%s| \033[m\" && sed -n %sp ./back/%s | sed -e \"s/\t/ /g\"", fileInfo[2], fileInfo[2], fileInfo[1])) ; \
-		printf "\033[31m\033[1m%*s\033[m", fileInfo[3]+length(fileInfo[2])+2, "^" ; \
+		linter_name = $$2 ; \
+		error_message = $$3 ; \
+		split($$1, error_file_info, ":") ; \
+		error_file_path = sprintf("./back/%s", error_file_info[1]) ; \
+		error_line_number = error_file_info[2] ; \
+		error_col_number = error_file_info[3] ; \
+		\
+		dashed_line_length = 80 ; \
+		dashed_line = sprintf("%*s", dashed_line_length, ""); gsub(/ /, "- ", dashed_line) ; \
+		\
+		printf "\n\033[36m- - %s %0.*s %s\033[m", toupper(linter_name), dashed_line_length - length($$1) - length($$2), dashed_line, fileInfo[1] ; \
+		printf "\n\n\033[1mLine %s, Column %s", error_line_number, error_col_number ; \
+		printf "\n\n\033[1m%s", error_message ; \
+		\
+		cmd_read_error_line = sprintf("sed -n %sp %s | sed -e \"s/\t/ /g\"", error_line_number, error_file_path) ; \
+		cmd_read_error_line | getline error_line ; close(cmd_read_error_line) ; \
+		printf "\n\n\033[33m%s|\033[m %s", error_line_number, error_line ; \
+		\
+		printf "\n\033[31m\033[1m%*s\033[m", error_col_number + length(error_line_number) + 2, "^" ; \
 	} END { printf "\n\033[31m%s errors detected\n", NR	}'
