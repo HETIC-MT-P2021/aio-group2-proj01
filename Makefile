@@ -23,6 +23,7 @@ build: ## Build all Docker images of the project
 .PHONY: up
 up: ## Builds and start all containers (in the background)
 	@$(DOCKER_COMPOSE) up -d
+	@make about
 	@make urls
 
 .PHONY: down
@@ -51,7 +52,13 @@ rebuild/front: ## Rebuild the front project
 
 .PHONY: urls
 urls: ## Get project's URL
-	@echo "\n\n"
+	@echo "------------------------------------------------------------"
+	@echo "${GREEN}You can access your project at the following URLS:${RESET}"
+	@echo "------------------------------------------------------------"
+	@$(DOCKER_COMPOSE) ps -q | xargs -n1 -I ID sh -c 'docker inspect --format="{{.Config.Image}}" ID ; docker port ID' | xargs -n4 printf '%-30s: %s %s %s\n' | sed "s/0.0.0.0/http:\/\/localhost/"
+
+.PHONY: about
+about:
 	@echo " _______  __      .___  ___. .______    __    __  .___  ___."
 	@echo "|   ____||  |     |   \/   | |   _  \  |  |  |  | |   \/   |"
 	@echo "|  |__   |  |     |  \  /  | |  |_)  | |  |  |  | |  \  /  |"
@@ -59,11 +66,6 @@ urls: ## Get project's URL
 	@echo "|  |____ |  \`----.|  |  |  | |  |_)  | |  \`--'  | |  |  |  |"
 	@echo "|_______||_______||__|  |__| |______/   \______/  |__|  |__|"
 	@echo "\n        Alexis Cauchois | Axel Rayer | Hugo Tinghino        "
-	@echo "\n"
-	@echo "------------------------------------------------------------"
-	@echo "${GREEN}You can access your project at the following URLS:${RESET}"
-	@echo "------------------------------------------------------------"
-	@$(DOCKER_COMPOSE) ps -q | xargs -n1 -I ID sh -c 'docker inspect --format="{{.Config.Image}}" ID ; docker port ID' | xargs -n4 printf '%-30s: %s %s %s\n' | sed "s/0.0.0.0/http:\/\/localhost/"
 
 .PHONY: lint/go
 lint/go: ## Run golangci-lint (All-In-One config)
@@ -72,9 +74,9 @@ lint/go: ## Run golangci-lint (All-In-One config)
 		split($$1, fileInfo, ":") ; \
 		dottingLenght = 80 ; \
 		dotting = sprintf("%*s", dottingLenght, ""); gsub(/ /, "- ", dotting) ; \
-		printf "\n\n\033[36m- - %s %0.*s %s\033[m", toupper($$2), dottingLenght-length($$1)-length($$2), dotting, fileInfo[1] ; \
+		printf "\n\033[36m- - %s %0.*s %s\033[m", toupper($$2), dottingLenght-length($$1)-length($$2), dotting, fileInfo[1] ; \
 		printf "\n\n\033[1mLine %s, Column %s", fileInfo[2], fileInfo[3] ; \
 		printf "\n\n\033[1m%s\n\n", $$3 ; \
 		system(sprintf("printf \"\033[33m%s| \033[m\" && sed -n %sp ./back/%s | sed -e \"s/\t/ /g\"", fileInfo[2], fileInfo[2], fileInfo[1])) ; \
-		printf "\033[31m\033[1m%*s\033[m\n", fileInfo[3]+length(fileInfo[2])+2, "^" ; \
-	} END { printf "\033[31m%s errors detected", NR	}'
+		printf "\033[31m\033[1m%*s\033[m", fileInfo[3]+length(fileInfo[2])+2, "^" ; \
+	} END { printf "\n\033[31m%s errors detected\n", NR	}'
