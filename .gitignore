@@ -1,4 +1,4 @@
+.DS_
 /.idea
 /logs
 /.env
-/uploads/*

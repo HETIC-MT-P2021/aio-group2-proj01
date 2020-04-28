@@ -1,12 +1,13 @@
 package router
 
 import (
-	"github.com/labstack/echo/v4"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
+// InitRoutes initiates all routes.
 func InitRoutes(e *echo.Echo) {
-
 	SetCategoryRoutes(e)
 	SetTagRoutes(e)
 	SetImageRoutes(e)
