@@ -7,9 +7,11 @@ import Json.Encode as E
 -- Image
 
 type alias Image =
-  { title : String
-  , author : String
-  , content : String
+  { id : Int
+  , description : String
+  , url : String
+  , created_at : Date
+  , tag : String
   }
 
 
@@ -29,14 +31,18 @@ wordCount Image =
 encode : Image -> E.Value
 encode Image =
   E.object
-    [ ("title", E.string Image.title)
-    , ("author", E.string Image.author)
-    , ("content", E.string Image.content)
+    [ ("id", E.int Image.id)
+    , ("description", E.string Image.description)
+    , ("url", E.string Image.url)
+    , ("created_at", E.date Image.created_at)
+    , ("tag", E.date Image.tag)
     ]
 
 decoder : D.Decoder Image
 decoder =
   D.map3 Image
-    (D.field "title" D.string)
-    (D.field "author" D.string)
-    (D.field "content" D.string)
+    (D.field "id" D.int)
+    (D.field "description" D.string)
+    (D.field "url" D.string)
+    (D.field "created_at" D.date)
+    (D.field "tag" D.string)

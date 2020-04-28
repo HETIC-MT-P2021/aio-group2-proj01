@@ -7,9 +7,8 @@ import Json.Encode as E
 -- Tag
 
 type alias Tag =
-  { title : String
-  , author : String
-  , content : String
+  { id : Int
+  , name : String
   }
 
 
@@ -29,14 +28,12 @@ wordCount Tag =
 encode : Tag -> E.Value
 encode Tag =
   E.object
-    [ ("title", E.string Tag.title)
-    , ("author", E.string Tag.author)
-    , ("content", E.string Tag.content)
+    [ ("id", E.int Tag.id)
+    , ("name", E.string Tag.name)
     ]
 
 decoder : D.Decoder Tag
 decoder =
   D.map3 Tag
-    (D.field "title" D.string)
-    (D.field "author" D.string)
-    (D.field "content" D.string)
+    (D.field "id" D.int)
+    (D.field "name" D.string)

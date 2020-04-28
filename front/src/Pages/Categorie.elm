@@ -7,9 +7,9 @@ import Json.Encode as E
 -- Categorie
 
 type alias Categorie =
-  { title : String
-  , author : String
-  , content : String
+  { id : Int
+  , name : String
+  , description : String
   }
 
 
@@ -29,14 +29,14 @@ wordCount Categorie =
 encode : Categorie -> E.Value
 encode Categorie =
   E.object
-    [ ("title", E.string Categorie.title)
-    , ("author", E.string Categorie.author)
-    , ("content", E.string Categorie.content)
+    [ ("id", E.int Categorie.id)
+    , ("name", E.string Categorie.name)
+    , ("description", E.string Categorie.description)
     ]
 
 decoder : D.Decoder Categorie
 decoder =
   D.map3 Categorie
-    (D.field "title" D.string)
-    (D.field "author" D.string)
-    (D.field "content" D.string)
+    (D.field "id" D.int)
+    (D.field "name" D.string)
+    (D.field "description" D.string)
