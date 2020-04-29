@@ -28,7 +28,7 @@ func GetImage(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
+	return c.JSON(http.StatusOK, res)
 }
 
 // GetAllImage returns a JSON list of images.
@@ -43,7 +43,7 @@ func GetAllImage(c echo.Context) error {
 		return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "image is empty", EmptyValue))
 	}
 
-	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
+	return c.JSON(http.StatusOK, res)
 }
 
 // AddImage creates a new image from JSON request.

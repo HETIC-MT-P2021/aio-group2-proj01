@@ -15,10 +15,6 @@ type Status struct {
 // SetResponse set the structure of the JSON response.
 func SetResponse(code int, message string, data interface{}) *Response {
 	res := &Response{
-		Status: Status{
-			Code:    code,
-			Message: message,
-		},
 		Data: data,
 	}
 
