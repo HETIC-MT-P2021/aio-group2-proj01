@@ -83,8 +83,8 @@ setContent route =
         Home ->
             Content.initHomePage
 
-        Category ->
-            Content.initCategoryPage
+        Category id ->
+            Content.initCategoryPage id
 
         Tag ->
             Content.initTagPage

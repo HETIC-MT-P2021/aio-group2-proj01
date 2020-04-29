@@ -1,12 +1,12 @@
 module Routes exposing (Route(..), parseUrl)
 
 import Url exposing (Url)
-import Url.Parser as Url
+import Url.Parser as Url exposing ((</>), parse, top, oneOf, s, int)
 
 
 type Route
     = Home
-    | Category
+    | Category Int
     | Tag
     | Image
     | NotFound
@@ -15,11 +15,11 @@ type Route
 parseUrl : Url -> Route
 parseUrl =
     Maybe.withDefault NotFound <<
-        Url.parse
-            (Url.oneOf
-                [ Url.map Home Url.top
-                , Url.map Category (Url.s "category")
-                , Url.map Tag (Url.s "tag")
-                , Url.map Image (Url.s "image")
+        parse
+            (oneOf
+                [ Url.map Home top
+                , Url.map Category (s "category" </> int)
+                , Url.map Tag (s "tag")
+                , Url.map Image (s "image")
                 ]
             )

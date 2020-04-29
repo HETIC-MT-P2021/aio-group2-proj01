@@ -1,18 +1,19 @@
 module Page.Category exposing (Msg, Model, init, update, view)
 
-import Html exposing (Html, section, div, text)
+import Html exposing (Html, section, h1, div, text)
 
 
 ---- MODEL ----
 
 
 type alias Model =
-    {}
+    { id : Int }
 
 
-init : Model
-init =
-    {}
+init : Int -> Model
+init id =
+    { id = id
+    }
 
 
 
@@ -34,6 +35,5 @@ update msg model =
 view : Model -> Html Msg
 view model =
     section []
-        [ div []
-            [ text "Welcome to the Category page." ]
+        [ h1 [] [ text <| "Category #" ++ String.fromInt model.id ]
         ]

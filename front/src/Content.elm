@@ -23,7 +23,7 @@ import Page.NotFound as NotFoundPage
 
 type Content
     = ContentHome HomePage.Model
-    | ContentCategory CategoryPage.Model
+    | ContentCategory Int CategoryPage.Model
     | ContentTag TagPage.Model
     | ContentImage ImagePage.Model
     | ContentNotFound
@@ -54,9 +54,9 @@ initHomePage model =
     { model | content = ContentHome HomePage.init }
 
 
-initCategoryPage : Model -> Model
-initCategoryPage model =
-    { model | content = ContentCategory CategoryPage.init }
+initCategoryPage : Int -> Model -> Model
+initCategoryPage id model =
+    { model | content = ContentCategory id (CategoryPage.init id) }
 
 
 initTagPage : Model -> Model
@@ -93,12 +93,12 @@ update msg model =
         
         CategoryPageMsg subMsg ->
             case model.content of
-                ContentCategory m ->
+                ContentCategory id m ->
                     let
                         (updated, subCmd) =
                             CategoryPage.update subMsg m
                     in
-                    ( { model | content = ContentCategory updated }
+                    ( { model | content = ContentCategory id updated }
                     , Cmd.map CategoryPageMsg subCmd
                     )
 
@@ -142,7 +142,7 @@ view model =
                 Html.map HomePageMsg <|
                     HomePage.view m
 
-            ContentCategory m ->
+            ContentCategory id m ->
                 Html.map CategoryPageMsg <|
                     CategoryPage.view m
 
@@ -153,6 +153,7 @@ view model =
             ContentImage m ->
                 Html.map ImagePageMsg <|
                     ImagePage.view m
+
             ContentNotFound ->
                 NotFoundPage.view
         ]
