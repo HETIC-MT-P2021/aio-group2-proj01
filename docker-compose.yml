@@ -2,13 +2,14 @@ version: "3.7"
 
 services:
 
-  nginx:
+  elm:
     build:
-      context: ./.docker/elm-nginx
-    ports:
-      - 8080:80
+      context: ./front
     volumes:
-      - ./logs/nginx/:/var/log/nginx
+      - ./front:/app
+    ports:
+      - 3000:3000
+    command: elm-app start
     depends_on:
       - go
 
@@ -20,6 +21,7 @@ services:
       - db
     volumes:
       - ./back/config.yaml:/config.yaml
+      - ./uploads:/uploads
     ports:
       - 1323:80
 

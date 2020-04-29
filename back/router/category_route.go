@@ -1,13 +1,15 @@
 package router
 
 import (
-	"back/controller"
-	"github.com/labstack/echo/v4"
 	"net/http"
 	"regexp"
+
+	"github.com/HETIC-MT-P2021/aio-group2-proj01/back/controller"
+	"github.com/labstack/echo/v4"
 )
 
-func paramValidation(next echo.HandlerFunc) echo.HandlerFunc {
+// ParamValidation validate the paramater of the request.
+func ParamValidation(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		paramKey := c.ParamNames()
 		paramValue := c.ParamValues()
@@ -24,10 +26,11 @@ func paramValidation(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+// SetCategoryRoutes define all cateogries routes.
 func SetCategoryRoutes(e *echo.Echo) {
-	e.PUT("/category/:id", controller.EditCategory, paramValidation)
-	e.GET("/category", controller.GetCategory)
+	e.GET("/category/:id", controller.GetCategory, ParamValidation)
+	e.GET("/category", controller.GetAllCategory)
 	e.POST("/category", controller.AddCategory)
-	e.DELETE("/category/:id", controller.RemoveCategory, paramValidation)
+	e.PUT("/category/:id", controller.EditCategory, ParamValidation)
+	e.DELETE("/category/:id", controller.RemoveCategory, ParamValidation)
 }
-
