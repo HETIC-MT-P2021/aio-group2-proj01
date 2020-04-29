@@ -1,6 +1,6 @@
 module Component.NavLink exposing (NavLink(..), view)
 
-import Html exposing (Html, a, text)
+import Html exposing (..)
 import Html.Attributes exposing (class, classList, href)
 
 
@@ -33,12 +33,14 @@ view : NavLink -> Html msg
 view navLink =
     case navLink of
         NavLink linkLabel linkHref isActive ->
-            a
-                [ class "link -nav"
-                , classList [ ( "-active", isActive ) ]
-                , href linkHref
+            li [ class "nav-item" ]
+                [ a
+                    [ class "nav-link -nav"
+                    , classList [ ( "active", isActive ) ]
+                    , href linkHref
+                    ]
+                    [ text linkLabel ]
                 ]
-                [ text linkLabel ]
 
         ExternalLink linkLabel linkHref ->
             a

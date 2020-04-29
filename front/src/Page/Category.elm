@@ -1,6 +1,7 @@
 module Page.Category exposing (Msg, Model, init, update, view)
 
-import Html exposing (Html, section, h1, div, text)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 
 
 ---- MODEL ----
@@ -35,5 +36,17 @@ update msg model =
 view : Model -> Html Msg
 view model =
     section []
-        [ h1 [] [ text <| "Category #" ++ String.fromInt model.id ]
+        [ h1 [] [ text <| "Category " ++ String.fromInt model.id ],
+        div [ class "card" ]
+            [ div [ class "card-body" ]
+                [ h5 [ class "card-title" ]
+                    [ text "TestCategoryName1" ]
+                , p [ class "card-text" ]
+                    [ text "TestCategoryDesc1" ]
+                , a [ class "btn btn-primary", href "#", attribute "style" "margin-right:5px;" ]
+                    [ text "Modifier" ]
+                , a [ class "btn btn-primary", href "#", attribute "style" "margin-left:5px;" ]
+                    [ text "Supprimer" ]
+                ]
+            ]
         ]
