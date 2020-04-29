@@ -60,7 +60,7 @@ urls: ## Get project's URL
 	@$(DOCKER_COMPOSE) ps -q | awk '{ \
 		cmd_docker_inspect = sprintf("docker inspect --format=%s %s", ${DOCKER_INPECT_FORMAT__AWK}, $$0) ; \
 		cmd_docker_inspect | getline docker_inspect ; close(cmd_docker_inspect) ; \
-		gsub(/0.0.0.0/, "http://localhost/", docker_inspect) ; \
+		gsub(/0.0.0.0/, "http://localhost", docker_inspect) ; \
 		split(docker_inspect, urls, "\t") ; \
 		printf "%s\n", urls[1] ; \
 		i = 2 ; while (i <= length(urls)) { \

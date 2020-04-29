@@ -23,7 +23,7 @@ func GetTag(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
+	return c.JSON(http.StatusOK, res)
 }
 
 // GetAllTag returns a JSON list of tags.
@@ -38,7 +38,7 @@ func GetAllTag(c echo.Context) error {
 		return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "Tag is empty", EmptyValue))
 	}
 
-	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
+	return c.JSON(http.StatusOK, res)
 }
 
 // AddTag creates a new tag from JSON request.

@@ -25,7 +25,7 @@ func GetCategory(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, e.SetResponse(http.StatusBadRequest, err.Error(), EmptyValue))
 	}
 
-	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
+	return c.JSON(http.StatusOK, res)
 }
 
 // GetAllCategory returns a JSON list of categories.
@@ -39,7 +39,7 @@ func GetAllCategory(c echo.Context) error {
 		return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "category is empty", EmptyValue))
 	}
 
-	return c.JSON(http.StatusOK, e.SetResponse(http.StatusOK, "", res))
+	return c.JSON(http.StatusOK, res)
 }
 
 // AddCategory creates a new category from JSON request.
