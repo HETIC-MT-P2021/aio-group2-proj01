@@ -4,6 +4,7 @@ module Content exposing
     , Model
     , init
     , initHomePage
+    , initCategoriesPage
     , initCategoryPage
     , initTagPage
     , initImagePage
@@ -15,6 +16,7 @@ module Content exposing
 import Html exposing (Html, div)
 import Html.Attributes exposing (class)
 import Page.Home as HomePage
+import Page.Categories as CategoriesPage
 import Page.Category as CategoryPage
 import Page.Tag as TagPage
 import Page.Image as ImagePage
@@ -23,6 +25,7 @@ import Page.NotFound as NotFoundPage
 
 type Content
     = ContentHome HomePage.Model
+    | ContentCategories CategoriesPage.Model
     | ContentCategory Int CategoryPage.Model
     | ContentTag TagPage.Model
     | ContentImage ImagePage.Model
@@ -31,6 +34,7 @@ type Content
 
 type Msg
     = HomePageMsg HomePage.Msg
+    | CategoriesPageMsg CategoriesPage.Msg
     | CategoryPageMsg CategoryPage.Msg
     | TagPageMsg TagPage.Msg
     | ImagePageMsg ImagePage.Msg
@@ -52,6 +56,11 @@ init =
 initHomePage : Model -> Model
 initHomePage model =
     { model | content = ContentHome HomePage.init }
+
+
+initCategoriesPage : Model -> Model
+initCategoriesPage model =
+    { model | content = ContentCategories CategoriesPage.init }
 
 
 initCategoryPage : Int -> Model -> Model
@@ -91,6 +100,20 @@ update msg model =
                 _ ->
                     (model, Cmd.none)
         
+        CategoriesPageMsg subMsg ->
+            case model.content of
+                ContentCategories m ->
+                    let
+                        (updated, subCmd) =
+                            CategoriesPage.update subMsg m
+                    in
+                    ( { model | content = ContentCategories updated }
+                    , Cmd.map CategoriesPageMsg subCmd
+                    )
+
+                _ ->
+                    (model, Cmd.none)
+
         CategoryPageMsg subMsg ->
             case model.content of
                 ContentCategory id m ->
@@ -141,6 +164,10 @@ view model =
             ContentHome m ->
                 Html.map HomePageMsg <|
                     HomePage.view m
+
+            ContentCategories m ->
+                Html.map CategoriesPageMsg <|
+                    CategoriesPage.view m
 
             ContentCategory id m ->
                 Html.map CategoryPageMsg <|

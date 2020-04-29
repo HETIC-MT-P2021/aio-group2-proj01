@@ -4,6 +4,8 @@ import Browser exposing (Document, UrlRequest(..))
 import Browser.Navigation as Navigation exposing (Key)
 import Html exposing (div, main_)
 import Html.Attributes exposing (class)
+import Component.NavBar as NavBar
+import Component.NavLink exposing (NavLink(..))
 import Routes exposing (Route(..), parseUrl)
 import Url exposing (Url)
 import Content
@@ -83,6 +85,9 @@ setContent route =
         Home ->
             Content.initHomePage
 
+        Categories ->
+            Content.initCategoriesPage
+
         Category id ->
             Content.initCategoryPage id
 
@@ -106,7 +111,8 @@ view model =
     , body =
         [ div
             [ class "app" ]
-            [ main_ []
+            [ NavBar.view "ElmBum" model.route
+            , main_ []
                 [ Html.map ContentMsg <|
                     Content.view model.content
                 ]

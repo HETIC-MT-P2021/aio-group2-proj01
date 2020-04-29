@@ -6,6 +6,7 @@ import Url.Parser as Url exposing ((</>), parse, top, oneOf, s, int)
 
 type Route
     = Home
+    | Categories
     | Category Int
     | Tag
     | Image
@@ -18,6 +19,7 @@ parseUrl =
         parse
             (oneOf
                 [ Url.map Home top
+                , Url.map Categories (s "category")
                 , Url.map Category (s "category" </> int)
                 , Url.map Tag (s "tag")
                 , Url.map Image (s "image")
