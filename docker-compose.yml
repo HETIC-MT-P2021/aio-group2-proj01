@@ -2,15 +2,15 @@ version: "3.7"
 
 services:
 
-  nginx:
-    build:
-      context: ./.docker/elm-nginx
-    ports:
-      - 8080:80
-    volumes:
-      - ./logs/nginx/:/var/log/nginx
-    depends_on:
-      - go
+  #nginx:
+  #  build:
+  #    context: ./front
+  #  ports:
+  #    - 3000:80
+  #  volumes:
+  #    - ./logs/nginx/:/var/log/nginx
+  #  depends_on:
+  #    - go
 
   go:
     build:

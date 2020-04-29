@@ -23,6 +23,7 @@ build: ## Build all Docker images of the project
 .PHONY: up
 up: build ## Builds and start all containers (in the background)
 	@$(DOCKER_COMPOSE) up -d
+	@cd front ; npx elm-app start /front
 	@make about
 	@make urls
 
