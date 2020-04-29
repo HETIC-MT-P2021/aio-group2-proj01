@@ -1,12 +1,12 @@
 package entity
 
-// ImaTagge defines the structure of the response entity.
+// Response defines the structure of the response entity.
 type Response struct {
 	Status Status      `json:"status"`
 	Data   interface{} `json:"data"`
 }
 
-// ImaTagge defines the structure of the status entity for the response.
+// Status defines the structure of the status entity for the response.
 type Status struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
