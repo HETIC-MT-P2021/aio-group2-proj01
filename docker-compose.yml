@@ -2,15 +2,16 @@ version: "3.7"
 
 services:
 
-  #nginx:
-  #  build:
-  #    context: ./front
-  #  ports:
-  #    - 3000:80
-  #  volumes:
-  #    - ./logs/nginx/:/var/log/nginx
-  #  depends_on:
-  #    - go
+  elm:
+    build:
+      context: ./front
+    volumes:
+      - ./front:/app
+    ports:
+      - 3000:3000
+    command: elm-app start
+    depends_on:
+      - go
 
   go:
     build:

@@ -1,14 +1,9 @@
-FROM node:14-alpine AS builder
+FROM node:alpine
 WORKDIR /app
-COPY . .
 
-RUN yarn global add elm ; \
-    yarn global add create-elm-app ; \
-    elm-app build
+ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
+ENV PATH=/home/node/.npm-global/bin:$PATH
 
+RUN yarn global add create-elm-app@4.2.14
 
-FROM nginx:1.17.9-alpine
-COPY --from=builder /app/build /var/www/html
-COPY default.conf /etc/nginx/conf.d/
-
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000

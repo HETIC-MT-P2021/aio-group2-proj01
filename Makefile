@@ -23,7 +23,6 @@ build: ## Build all Docker images of the project
 .PHONY: up
 up: build ## Builds and start all containers (in the background)
 	@$(DOCKER_COMPOSE) up -d
-	@cd front ; npx elm-app start /front
 	@make about
 	@make urls
 
@@ -61,7 +60,7 @@ urls: ## Get project's URL
 	@$(DOCKER_COMPOSE) ps -q | awk '{ \
 		cmd_docker_inspect = sprintf("docker inspect --format=%s %s", ${DOCKER_INPECT_FORMAT__AWK}, $$0) ; \
 		cmd_docker_inspect | getline docker_inspect ; close(cmd_docker_inspect) ; \
-		gsub(/0.0.0.0/, "http://localhost/", docker_inspect) ; \
+		gsub(/0.0.0.0/, "http://localhost", docker_inspect) ; \
 		split(docker_inspect, urls, "\t") ; \
 		printf "%s\n", urls[1] ; \
 		i = 2 ; while (i <= length(urls)) { \
